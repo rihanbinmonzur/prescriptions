@@ -22,7 +22,7 @@
     .patient-info label { margin-right: 2px; white-space: nowrap; }
     .patient-info input, .patient-info select { padding: 3px; font-size: 12px; border: 1px solid #ddd; border-radius: 4px; width: 40%; }
     
-    .main-content { display: flex; min-height: 300px; }
+    .main-content { display: flex; min-height: 82vh; }
     
     .left-panel { width: 28%; padding: 1px; border-right: 1px solid #ddd; background: #f8f9fa; }
     
@@ -34,9 +34,9 @@
     
     .rx-symbol { position: absolute; top: -5px; left: 8px; font-size: 22px; font-weight: bold; color: #525252; opacity: 0.6; z-index: 3; }
     
-    #medTable { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 1px; }
+    #medTable { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 3px; }
     #medTable th, #medTable td { border: 1px solid #ddd; padding: 1px; text-align: left; }
-    #medTable input, #medTable textarea, #medTable select { width: 100%; padding: 0px; font-size: 12px; border: 1px solid #ddd; border-radius: 3px; }
+    #medTable input, #medTable textarea, #medTable select { width: 100%; padding: 2px; font-size: 12px; border: 1px solid #ddd; border-radius: 3px; }
     #medTable textarea { resize: vertical; line-height: 1.1; height: 18px; }
     
     .dosage-system { display: flex; flex-wrap: wrap; gap: 1px; align-items: center; font-size: 11px; padding: 0px; }
@@ -83,34 +83,7 @@
         overflow: hidden;
         height: auto;
       }
-      .dosa{
-        display: flex;
-        white-space: nowrap;
-        align-items: center;
-        gap: 0px;
-      }
-      .dosa input, .dosa select{
-        margin: 0;
-        padding: 0;
-      }
-
-      .dosa input {
-         width: 10px;        /* input আরো ছোট */
-        }
-
-        .dosa select {
-           width: 15px;        /* dropdown আরো ছোট */
-                  }
-
-                  .dosa select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  padding: 0;
-}
-
-
-
+      
       .removeRowBtn, #addRowBtn { display: none; }
       
       #medTable th, #medTable td { border: none; }
@@ -126,12 +99,6 @@
       thead { display: none; }
       
       select { appearance: none; border: none; }
-
-    
-   
-    
-  }
-   
       
       @page { margin: 1px; }
       
@@ -154,12 +121,13 @@
         display: inline;
         width: auto;
         min-width: 80px;
-      
-    }
-    
-    /* Watermark */
-    .watermark { position: fixed; top: 60%; left: 57%; width: 300px; height: 300px; opacity: 0.1; transform: translate(-50%, -50%); pointer-events: none; z-index: 0; }
-    
+      }
+ .duration{
+  width: 30px !important ;
+
+ }
+}  
+  
     /* Stethoscope */
     .statiscop { position: absolute; left: 50%; top: 2%; width: 65px; height: 70px; opacity: 0.6; transform: translate(-50%); }
     
@@ -169,22 +137,15 @@
     .known-case-item { display: flex; align-items: center; margin-right: 8px; white-space: nowrap; }
     
     /* Print styles for known case section */
-    @media print {
+    /* @media print {
       .known-case-item { display: inline-block; margin-right: 8px; }
-    }
-
-    /* Watermark */
-.watermark{position:fixed;top:60%;left:57%;width:300px;height:300px;opacity:0.1;transform:translate(-50%,-50%);pointer-events:none;z-index:0;}
-/* stethiscope */
-.statiscop{position:absolute;left:50%; top: 2%; width:65px;height:70px;opacity:0.6;transform:translate(-50%); }
+    } */
   </style>
 </head>
 <body>
   <div class="prescription" style="width: 100%;">
-    <!-- Watermark Logo -->
-      <img src="caduceus.png" class="watermark">
-    <div class="watermark">℞</div>
-   
+    
+    
     
     <div class="header">
       <div class="clinic-info">
@@ -196,7 +157,6 @@
         <p>মেডিসিন,বাতব্যথা,বুকব্যথা,শ্বাসকষ্ট,ডায়াবেটিস </p>
         <p>উচ্চ রক্তচাপ,শিশু রোগ ও চর্মরোগ অভিজ্ঞ</p>
       </div>
-       <img src="stethoscope.png" class="statiscop" alt="">
       <div class="doctor-info">
         <h2>Dr. Md. Mazharul Islam</h2>
         <p>MBBS (CU)</p>
@@ -220,6 +180,11 @@
     <div class="main-content">
       <div class="left-panel">
         <div class="section-title">C/C</div>
+
+
+
+
+        
         <div class="clinical-data"><textarea id="cc-input" rows="3"></textarea></div>
         
         <fieldset>
@@ -265,31 +230,24 @@
             </div>
             <div class="oe-row">
               <span class="oe-label">PULSE:</span>
-              <span class="oe-input"><input type="text" id="pulse" style="width: 170px;"></span>
+              <span class="oe-input"><input type="text" id="pulse" style="width: 150px;"></span>
             </div>
             <div class="oe-row">
               <span class="oe-label">Temp:</span>
-              <span class="oe-input"><input type="text" id="temp" style="width: 170px;"></span>
+              <span class="oe-input"><input type="text" id="temp" style="width: 150px;"></span>
             </div>
             <div class="oe-row">
               <span class="oe-label">Heart:</span>
-              <span class="oe-input"><input type="text" id="heart" style="width: 170px;"></span>
+              <span class="oe-input"><input type="text" id="heart" style="width: 150px;"></span>
             </div>
             <div class="oe-row">
               <span class="oe-label">Lungs:</span>
-              <span class="oe-input"><input type="text" id="lungs" style="width: 170px;"></span>
+              <span class="oe-input"><input type="text" id="lungs" style="width: 150px;"></span>
             </div>
           </div>
           <div class="clinical-data">others<textarea id="oe-input" rows="1"></textarea></div>
-        </fieldset>
+        </fieldset> 
         
-        <div class="section-title">Adv</div>
-        <div class="clinical-data"><textarea id="adv-input" rows="2"></textarea></div>
-        
-        <label for="provisional">provisional D/X: <input type="text" id="provisional"></label><br>
-        <label for="dd">D/D: <textarea id="dd"></textarea></label><br>
-        <label for="confirm">Confirm DX: <textarea id="confirm"></textarea></label>
-       
         <fieldset>
           <legend>Investigations:</legend>
           <div class="known-case-container">
@@ -323,6 +281,20 @@
             </div>
           </div>
         </fieldset>
+        
+        <div class="section-title">Adv</div>
+        <div class="clinical-data"><textarea id="adv-input" rows="2"></textarea></div>
+
+
+       
+
+
+        
+        <label for="provisional">provisional D/X: <input type="text" id="provisional"></label><br>
+        <label for="dd">D/D: <textarea id="dd"></textarea></label><br>
+        <label for="confirm">Confirm DX: <textarea id="confirm"></textarea></label>
+       
+       
       </div>
 
       <div class="right-panel">
@@ -332,12 +304,12 @@
             <thead>
               <tr>
                 <th style="width:0px; font-size: 5px;font-weight:bold; padding: 0px;">S/L</th>
-                <th style="width:50px;">Dosage formu</th>
-                <th style="width:105px; " class="medina">Medicine Name</th>
-                <th style="width:47px;">Strength</th>
-                <th style="width:80px;">Dosage</th>
-                <th style="width:80px;">Duration</th>
-                <th style="width: 205px;">Notes</th>
+                <th>Dosage formu</th>
+                <th style="width:150px;">Medicine Name</th>
+                <th style="width:30px;">Strength</th>
+                <th style="width: 60px;" >Dosage</th>
+                <th style="width:85px;  ">Duration</th>
+                <th>Notes</th>
               </tr>
             </thead>
             <tbody>
@@ -357,30 +329,29 @@
                     <option value="supp">supp</option>
                   </select>
                 </td>
-                <td> <br> <textarea style="width:105px; "  placeholder="medicine Name" claass="medina" ></textarea></td>
-                <td><input style="width:47px;" type="text" placeholder="500mg"></td>
+                
+                <td><br><textarea style="width:148px;" rows="2" placeholder="medicine Name">123456789 or</textarea></td>
+                <td><input style="width:47px;  " type="text" placeholder="500mg"></td>
                 <td>
                   <div>
-                    <input type="text" style="width:104px;" class="final-dosages" placeholder="Dosage">
+                    <input type="text" style="width:100px;" class="final-dosages" placeholder="Dosage">
                   </div>
                 </td>
-                <td> 
-                  <div class="dosa" >
-                  <input type="number" style="font-size: 11px; width: 35px; ">
-                  <select style="width: 45px; ">
+                <td class="duration" style="  gap:0; align-items: flex-start; white-space: nowrap;" >
+                  <input type="number" style="font-size: 12px; width: 35px; padding: 0; margin-right: 0px; ">
+                  <select style="width: 50px; ">
                     <option>দিন</option>
                     <option>সপ্তাহ</option>
-                    <option>মাস</option>
+                    <option>মাস</option>+
                   </select>
-                </div>
                 </td>
-                <td><br> 
-                  <select name="meal_timing" style="width:100px;"  >
+                <td  style=" display: flex; gap: 0; align-items: flex-start; " >
+                  <select name="meal_timing" style="width:70px; ">
                    
                     <option value="after">খাওয়ার পরে</option>
                     <option value="before">খাওয়ার আগে</option>
                   </select>
-                  <textarea style="width:105px;"></textarea>
+                  <textarea rows="2" style="width:100px; ">ggggggggggggggggggggggggzgz</textarea>
                 </td>
               </tr>
             </tbody>
@@ -394,7 +365,7 @@
           <textarea rows="1" style="width: 100%;"></textarea>
         </div>
 
-        <div class="next-visit">
+        <div class="next-visit" style>
           <label>পরবর্তী সাক্ষাৎ:</label>
           <input type="number" id="next-visit-number" style="width:35px;">
           <select id="next-visit-unit" style="font-size:11px;">
