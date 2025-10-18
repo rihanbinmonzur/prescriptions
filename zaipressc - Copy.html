@@ -1,0 +1,494 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="title">Medical Prescription</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    
+    * { margin: 0; padding: 1px; box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { background: #f5f5f5; padding: 1px; }
+    
+    .prescription { width: 100%; margin: 0 auto; background: white; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    
+    .header { background: linear-gradient(to right, #1e40af, #3b82f6); color: #fafafa; padding: 8px 12px; display: flex; justify-content: space-between; font-size: 10px; }
+    
+    .clinic-info h2, .doctor-info h2 { font-size: 12px; margin-bottom: 2px; }
+    .clinic-info p, .doctor-info p { font-size: 9px; margin: 1px 0; }
+    
+    .patient-info { padding: 3px 2px; background: #f9f9f9; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; font-size: 12px; }
+    
+    .patient-info div { margin: 0 2px; flex: 1; min-width: 25px; }
+    .patient-info label { margin-right: 2px; white-space: nowrap; }
+    .patient-info input, .patient-info select { padding: 3px; font-size: 12px; border: 1px solid #ddd; border-radius: 4px; width: 40%; }
+    
+    .main-content { display: flex; min-height: 82vh; }
+    
+    .left-panel { width: 28%; padding: 1px; border-right: 1px solid #ddd; background: #f8f9fa; }
+    
+    .section-title { font-weight: bold; margin-bottom: 3px; color: #333; font-size: 12px; }
+    
+    .clinical-data textarea { width: 100%; padding: 1px; font-size: 11px; border: 1px solid #ddd; border-radius: 4px; resize: vertical; line-height: 1.2; }
+    
+    .right-panel { width: 72%; padding: 1px; position: relative; }
+    
+    .rx-symbol { position: absolute; top: -5px; left: 8px; font-size: 22px; font-weight: bold; color: #525252; opacity: 0.6; z-index: 3; }
+    
+    #medTable { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 3px; }
+    #medTable th, #medTable td { border: 1px solid #ddd; padding: 1px; text-align: left; }
+    #medTable input, #medTable textarea, #medTable select { width: 100%; padding: 2px; font-size: 12px; border: 1px solid #ddd; border-radius: 3px; }
+    #medTable textarea { resize: vertical; line-height: 1.1; height: 18px; }
+    
+    .dosage-system { display: flex; flex-wrap: wrap; gap: 1px; align-items: center; font-size: 11px; padding: 0px; }
+    .dosage-system label { white-space: nowrap; }
+    .dosage-system input[type="number"] { width: 1px; text-align: center; }
+    .dosage-system .final-dosage { width: 70px; background: #f1f1f1; border: 1px solid #ddd; border-radius: 3px; padding: 1px 1px; }
+    
+    .removeRowBtn { background: #ff4d4d; color: white; border: none; border-radius: 1px; padding: 3px 1px; cursor: pointer; font-size: 7px; }
+    #addRowBtn { margin-top: 5px; padding: 2px 6px; font-size: 10px; background: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer; }
+    
+    .footer { background: #1e3a8a; color: white; padding: 6px 8px; display: flex; justify-content: space-between; flex-wrap: wrap; font-size: 8px; }
+    
+    .footer .clinic-location { display: flex; gap: 5px; align-items: flex-start; }
+    .footer .clinic-location i { margin-top: 2px; }
+    
+    .footer .contact-info p { margin: 1px 0; }
+    
+    .next-visit { margin-top: 5px; font-size: 11px; display: flex; align-items: center; gap: 1px; }
+    
+    p::before, p::after { content: none !important; }
+    
+    /* Checkbox styling for screen view */
+    input[type="checkbox"] { margin-right: 3px; }
+    
+    /* Print styles */
+    @media print {
+      body { padding: 1px; margin: 1px; background: none; }
+      
+      .prescription { width: 100%; box-shadow: none; border: none; margin: 0; }
+      
+      .patient-info, .main-content, .footer { page-break-inside: avoid; }
+      
+      .clinical-data textarea, 
+      .patient-info input, 
+      .patient-info select,
+      #medTable input, 
+      #medTable textarea, 
+      #medTable select,
+      .oe-label,
+      .oe-input {
+        border: none;
+        background: transparent;
+        resize: none;
+        overflow: hidden;
+        height: auto;
+      }
+       
+      #meal-timing{
+        width: 63px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        vertical-align: -100% !important;
+      }
+      #notes{
+        vertical-align: -2.6em;
+      }
+
+
+      .removeRowBtn, #addRowBtn { display: none; }
+      
+      #medTable th, #medTable td { border: none; }
+      
+      .actions { display: none; }
+      
+      .footer { position: fixed; bottom: 0; width: 100%; }
+      
+      .next-visit { position: fixed; bottom: 7%; width: 100%; }
+      
+      input[type=number] { appearance: none; border: none; }
+      
+      thead { display: none; }
+      
+      select { appearance: none; border: none; }
+      
+      @page { margin: 1px; }
+      
+      input[type="checkbox"] { display: none !important; }
+      
+      fieldset label { display: none !important; }
+      
+      input[type="checkbox"]:checked + label { display: inline-block !important; margin-right: 10px; }
+      
+      input[type="checkbox"]:checked + label::before { content: "✓ "; font-weight: bold; color: black; }
+      
+      /* Specific fixes for O/E section */
+      .oe-label {
+        display: inline;
+        margin-right: 5px;
+        font-size: 11px;
+      }
+      
+      .oe-input {
+        display: inline;
+        width: auto;
+        min-width: 80px;
+      }
+
+      .dosa{
+          display: flex;
+          white-space: nowrap;
+          align-items: center;
+          gap: 0px;
+      }
+   .dosa input, .dosa select {
+    margin: 0;
+    padding: 0;
+   }
+
+     .dosa select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 0;
+}
+
+}  
+  
+    /* Stethoscope */
+    .stethoscope { position: absolute; left: 50%; top: 2%; width: 65px; height: 70px; opacity: 0.6; transform: translate(-50%); }
+
+
+    
+    /* Known case container */
+    .known-case-container { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+
+    .watermark{position:fixed;top:60%;left:57%;width:300px;height:300px;opacity:0.1;transform:translate(-50%,-50%);pointer-events:none;z-index:0;}
+    
+    .known-case-item { display: flex; align-items: center; margin-right: 8px; white-space: nowrap; }
+    
+    /* Print styles for known case section */
+    /* @media print {
+      .known-case-item { display: inline-block; margin-right: 8px; }
+    } */
+  </style>
+</head>
+<body>
+  <div class="prescription" style="width: 100%;">
+    
+    <img src="stethoscope.png" alt="" class="stethoscope">
+
+    <img src="caduceus.png" alt="" class="watermark">
+    
+    <div class="header">
+      <div class="clinic-info">
+        <h2>ডাঃ মো: মাজহারুল ইসলাম</h2>
+        <p> এমবিবিএস (সিইউ)</p>
+        <p>আই.এম.ও (মেডিসিন)</p>
+        <p>চট্টগ্রাম ইন্টারন্যাশনাল মেডিকেল কলেজ হাসপাতাল</p>
+        <p>বিএমডিসি রেজিঃ A-131196</p>
+        <p>মেডিসিন,বাতব্যথা,বুকব্যথা,শ্বাসকষ্ট,ডায়াবেটিস </p>
+        <p>উচ্চ রক্তচাপ,শিশু রোগ ও চর্মরোগ অভিজ্ঞ</p>
+      </div>
+      <div class="doctor-info">
+        <h2>Dr. Md. Mazharul Islam</h2>
+        <p>MBBS (CU)</p>
+        <p>I.M.O (Medicine)</p>
+        <p>Chattogram International Medical College Hospital</p>
+        <p>BMDc Reg No: A-131196</p>
+        <p>Medicine, Rheumatology, Asthma</p>
+        <p>Diabetes, High Blood Pressure, Pediatrics</p>
+        <p>& Skin Diseases Expert.</p>
+      </div>
+    </div>
+
+    <div class="patient-info">
+      <div><label>Name: </label><input style="width: 180px;" type="text" id="patient-name"></div>
+      <div style="white-space: nowrap;"><label style="width: 10px;">Age:</label> <input type="number" id="patient-age"><select id="patient-age-unit"><option>years</option><option>months</option><option>days</option></select></div>
+      <div><label>Sex: </label><select id="patient-sex"><option>Male</option><option>Female</option></select></div>
+      <div><label>Wt: </label><input type="text" id="patient-weight"></div>
+      <div><label>Date: </label><input type="text" id="patient-date" placeholder="DD.MM.YY" style="width: 75px;"></div>
+    </div>
+
+    <div class="main-content">
+      <div class="left-panel">
+        <div class="section-title">C/C</div>
+
+
+
+
+        
+        <div class="clinical-data"><textarea id="cc-input" rows="3"></textarea></div>
+        
+        <fieldset>
+          <legend>known case of:</legend>
+          <div class="known-case-container">
+            <div class="known-case-item">
+              <input type="checkbox" id="dm-check" value="D/M">
+              <label for="dm-check">D/M</label>
+            </div>
+            <div class="known-case-item">
+              <input type="checkbox" id="htn-check" value="h/t/n">
+              <label for="htn-check">H/T/N</label>
+            </div>
+            <div class="known-case-item">
+              <input type="checkbox" id="ckd-check" value="c/k/d">
+              <label for="ckd-check">C/K/D</label>
+            </div>
+            <div class="known-case-item">
+              <input type="checkbox" id="copd-check" value="COPD">
+              <label for="copd-check">COPD</label>
+            </div>
+            <div class="known-case-item">
+              <input type="checkbox" id="cld-check" value="CLD">
+              <label for="cld-check">CLD</label>
+            </div>
+            <div class="known-case-item">
+              <input type="checkbox" id="asthma-check" value="ASTHMA">
+              <label for="asthma-check">ASTHMA</label>
+            </div>
+            <div class="known-case-item">
+              <input type="checkbox" id="ihd-check" value="IHD">
+              <label for="ihd-check">IHD</label>
+            </div>
+          </div>
+        </fieldset>
+        
+        <fieldset>
+          <legend>O/E</legend>
+          <div class="clinical-data">
+            <div class="oe-row">
+              <span class="oe-label">BP:</span>
+              <span class="oe-input"><input type="text" id="bp" style="width: 170px;"></span>
+            </div>
+            <div class="oe-row">
+              <span class="oe-label">PULSE:</span>
+              <span class="oe-input"><input type="text" id="pulse" style="width: 150px;"></span>
+            </div>
+            <div class="oe-row">
+              <span class="oe-label">Temp:</span>
+              <span class="oe-input"><input type="text" id="temp" style="width: 150px;"></span>
+            </div>
+            <div class="oe-row">
+              <span class="oe-label">Heart:</span>
+              <span class="oe-input"><input type="text" id="heart" style="width: 150px;"></span>
+            </div>
+            <div class="oe-row">
+              <span class="oe-label">Lungs:</span>
+              <span class="oe-input"><input type="text" id="lungs" style="width: 150px;"></span>
+            </div>
+          </div>
+          <div class="clinical-data">others<textarea id="oe-input" rows="1"></textarea></div>
+        </fieldset> 
+        
+        <fieldset>
+          <legend>Investigations:</legend>
+          <div class="known-case-container">
+            <div class="known-case-item">
+              <input type="checkbox" id="cbc-check" value="cbc">
+              <label for="cbc-check">CBC</label>
+            </div>
+            <div class="known-case-item">
+              <input type="checkbox" id="rbs-check" value="rbs">
+              <label for="rbs-check">RBS</label>
+            </div>
+            <div class="known-case-item">
+              <input type="checkbox" id="ecg-check" value="ECG">
+              <label for="ecg-check">ECG</label>
+            </div>
+            <div class="known-case-item">
+              <input type="checkbox" id="creatinine-check" value="S.Creatinine">
+              <label for="creatinine-check">S.Creatinine</label>
+            </div>
+            <div class="known-case-item">
+              <input type="checkbox" id="cld2-check" value="CLD">
+              <label for="cld2-check">CLD</label>
+            </div>
+            <div class="known-case-item">
+              <input type="checkbox" id="asthma2-check" value="ASTHMA">
+              <label for="asthma2-check">ASTHMA</label>
+            </div>
+            <div class="known-case-item">
+              <input type="checkbox" id="ihd2-check" value="IHD">
+              <label for="ihd2-check">IHD</label>
+            </div>
+          </div>
+        </fieldset>
+        
+        <div class="section-title">Adv</div>
+        <div class="clinical-data"><textarea id="adv-input" rows="2"></textarea></div>
+
+
+         <fieldset>
+    <legend>Provisional</legend>
+    <div class="clinical-data">
+      <div class="oe-row">
+        <span class="oe-label" >Provisional D/X: </span>
+        <span> <input type="text" id ="dx" name="dx" style=" width:64% "> </span>
+      </div>
+      <div class="oe-row" >
+        <span class="oe-label">D/D</span>
+        <span> <textarea name="" id="" rows="1" style="width: 80%;" ></textarea> </span>
+      </div>
+      <div class="oe-row">
+        <span class="oe-label" >Confirm DX:  </span>
+        <span> <textarea name="" id="" rows="1" style="width:70%" ></textarea> </span>
+      </div>
+    </div>
+  </fieldset>
+
+
+       
+      </div>
+
+      <div class="right-panel">
+        <div class="rx-symbol">℞</div>
+        <div class="section">
+          <table id="medTable">
+            <thead>
+              <tr>
+                <th style="width:0px; font-size: 5px;font-weight:bold; padding: 0px;">S/L</th>
+                <th>Dosage formu</th>
+                <th style="width:150px;">Medicine Name</th>
+                <th style="width:30px;">Strength</th>
+                <th style="width: 60px;" >Dosage</th>
+                <th style="width:90px;  ">Duration</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span class="serial">1</span> 
+                  <button class="removeRowBtn">X</button>
+                </td>
+                <td>
+                  <select style="width:50px;">
+                    <option value="">Tab,</option>
+                    <option value="inhaler">inhaler</option>
+                    <option value="cap">cap</option>
+                    <option value="syp">syp</option>
+                    <option value="powder">powder</option>
+                    <option value="cream">cream</option>
+                    <option value="supp">supp</option>
+                  </select>
+                </td>
+                
+                <td><br><textarea style="width:148px;" rows="2" placeholder="medicine Name">123456789 or</textarea></td>
+                <td><input style="width:47px;  " type="text" placeholder="500mg"></td>
+                <td>
+                  <div>
+                    <input type="text" style="width:100px;" class="final-dosages" placeholder="Dosage">
+                  </div>
+                </td>
+                <td   >
+                  <div class="dosa" >
+                  <input type="number" style="font-size: 12px; width: 35px;  text-align: right; ">
+                  <select style="width: 45px; text-align: left; ">
+                    <option>দিন</option>
+                    <option>সপ্তাহ</option>
+                    <option>মাস</option>
+                  </select>
+                </div>
+                </td>
+                <td  style="  gap: 0; white-space: nowrap; padding: 0; " >
+                  <select id="meal-timing"  name="meal_timing" style="width:90px;padding: 0; gap: 0  ">
+                   
+                    <option value="after">খাওয়ার পরে</option>
+                    <option value="before">খাওয়ার আগে</option>
+                  </select>
+                  <textarea id="notes" rows="2" style="width:100px; ">123456789 or 123456</textarea>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <button id="addRowBtn">+ Add Medicine</button>
+        </div>
+
+        <!-- Advice -->
+        <div class="section" id="upode">
+          <label>উপদেশ:</label>
+          <textarea rows="1" style="width: 100%;"></textarea>
+        </div>
+
+        <div class="next-visit" style>
+          <label>পরবর্তী সাক্ষাৎ:</label>
+          <input type="number" id="next-visit-number" style="width:35px;">
+          <select id="next-visit-unit" style="font-size:11px;">
+            <option>দিন</option>
+            <option>সপ্তাহ</option>
+            <option>মাস</option>
+          </select>
+          <span style="font-size:11px;">পর,পরবর্তী সাক্ষাতের সময় ব্যবস্থাপত্র সঙ্গে আনবেন।</span>
+        </div>
+
+        <div class="actions" style="margin-top:5px;">
+          <button onclick="window.print()" style="padding:2px 5px; font-size:10px;">🖨 Print</button>
+        </div>
+
+        <div class="signature" style="position:relative; bottom:-30px; right:8px; text-align:right; font-size:9px;">
+          <p id="sig-name">Dr. Mazharul Islam</p>
+          <p id="signature-date"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="clinic-location">
+        <i class="fas fa-map-marker-alt"></i>
+        <div>
+          <h1>চেম্বার: শেফা ফার্মেসী</h1>
+          <p>২নং গেইট, মেয়র গলি, চশমা হিল আবাসিক এলাকা</p>
+          <p>পূর্ব নাসিরাবাদ, চট্রগ্রাম।</p>
+        </div>
+      </div>
+      <div class="contact-info">
+        <p>সাক্ষাতের সময় ঃ</p>
+        <p> রবিবার থেকে বৃহস্পতিবার</p>
+        <p>সন্ধ্যা ৬টা - রাত ১০টা পর্যন্ত</p>
+        <p>01857-389465(সিরিয়ালের জন্য)</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Set current date
+    function formatDate(date){
+      return ("0"+date.getDate()).slice(-2)+"."+("0"+(date.getMonth()+1)).slice(-2)+"."+date.getFullYear().toString().slice(-4);
+    }
+    window.onload=function(){
+      let today = new Date();
+      document.getElementById('patient-date').value=formatDate(today);
+      document.getElementById('signature-date').textContent=formatDate(today);
+      updateSerialNumbers();
+    }
+
+    // Update serial numbers
+    function updateSerialNumbers(){
+      let rows = document.querySelectorAll("#medTable tbody tr");
+      rows.forEach((row,index)=>{
+        let serialCell = row.querySelector(".serial");
+        if(serialCell){
+          serialCell.textContent = index + 1;
+        }
+      });
+    }
+
+    // Remove row
+    document.addEventListener("click", function(e){
+      if(e.target.classList.contains("removeRowBtn")){
+        e.target.closest("tr").remove();
+        updateSerialNumbers();
+      }
+    });
+
+    // Add new medicine row
+    document.getElementById("addRowBtn").addEventListener("click", function(){
+      let table = document.getElementById("medTable").getElementsByTagName("tbody")[0];
+      let newRow = table.rows[0].cloneNode(true);
+      newRow.querySelectorAll("input,textarea").forEach(el=>el.value="");
+      table.appendChild(newRow);
+      updateSerialNumbers();
+    });
+  </script>
+</body>
+</html>
